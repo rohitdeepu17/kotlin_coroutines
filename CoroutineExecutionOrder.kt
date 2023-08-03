@@ -21,10 +21,10 @@ fun main() = runBlocking {//Main Thread
     val startTime = System.currentTimeMillis()
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-    val msgOne = getMessageOne()
-    val msgTwo = getMessageTwo()
+    val msgOne : Deferred<String> = async{getMessageOne()}
+    val msgTwo : Deferred<String> = async{getMessageTwo()}
 
-    println("Full message is : ${msgOne+msgTwo} ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
+    println("Full message is : ${msgOne.await()+msgTwo.await()} ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
@@ -42,6 +42,6 @@ suspend fun getMessageTwo(): String{
 /*
 OUTPUT:
 main program starts at 0: main
-Full message is : Hello World! 2028: main
-Main program ends at 2028: main
+Full message is : Hello World! 1036: main
+Main program ends at 1036: main
  */
