@@ -4,12 +4,14 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 
 fun main() = runBlocking {//Main Thread
@@ -25,8 +27,10 @@ fun main() = runBlocking {//Main Thread
         }catch (ex: CancellationException){
             println("Exception caught safely")
         }finally {
-            delay(1000)
-            println("closing resources")
+            withContext(NonCancellable){//a new coroutine is created as the older one is cancelled.
+                delay(10)
+                println("closing resources")
+            }
         }
 
     }
@@ -39,6 +43,7 @@ fun main() = runBlocking {//Main Thread
 /*
 OUTPUT:
 main program starts at 0: main
-1 2 3 4 Exception caught safely
-Main program ends at 58: main
+1 2 3 Exception caught safely
+closing resources
+Main program ends at 78: main
  */
