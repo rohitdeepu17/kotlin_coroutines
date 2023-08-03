@@ -11,13 +11,17 @@ fun main() = runBlocking {
 
         GlobalScope.launch{     //Thread T1
             println("Fake work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")  //Thread T1
-            delay(1000)     //does not block the thread on which it is running
+            mySuspendFun(1000)     //does not block the thread on which it is running
             println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")     //Either T1 or some other thread
         }
 
-        delay(2000)
+        mySuspendFun(2000)
 
         println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
+}
+
+suspend fun mySuspendFun(timeToDelay: Long){
+    delay(timeToDelay)
 }
 
 /*
