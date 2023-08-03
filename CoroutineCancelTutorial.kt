@@ -1,5 +1,6 @@
 package com.example.testkotlincoroutines
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -16,12 +17,17 @@ fun main() = runBlocking {//Main Thread
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
     val job: Job = launch(Dispatchers.Default){
-        for(i in 1..1000){
-            if(!isActive)
-                break
-            print("$i ")
-            Thread.sleep(1)
+        try{
+            for(i in 1..1000){
+                print("$i ")
+                delay(5)
+            }
+        }catch (ex: CancellationException){
+            println("Exception caught safely")
+        }finally {
+            println("closing resources")
         }
+
     }
 
     delay(15)
