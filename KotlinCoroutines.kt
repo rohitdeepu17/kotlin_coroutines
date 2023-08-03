@@ -1,7 +1,9 @@
 package com.example.testkotlincoroutines
 
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -10,13 +12,13 @@ fun main() = runBlocking {//Main Thread
         val startTime = System.currentTimeMillis()
         println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-        val job: Job = launch{     //Thread main
+        val jobDeferred: Deferred<Unit> = async{     //Thread main
             println("Fake work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")  //Thread main
             mySuspendFun(1000)     //does not block the thread on which it is running
             println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")     //Either main thread or some other thread
         }
 
-        job.join()          //wait for the coroutine to finish it's job
+        jobDeferred.join()          //wait for the coroutine to finish it's job
 
         println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
