@@ -1,9 +1,12 @@
 package com.example.testkotlincoroutines
 
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
@@ -12,16 +15,17 @@ fun main() = runBlocking {//Main Thread
     val startTime = System.currentTimeMillis()
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-    val job: Job = launch{
+    val job: Job = launch(Dispatchers.Default){
         for(i in 1..1000){
-            yield()
+            if(!isActive)
+                break
             print("$i ")
+            Thread.sleep(1)
         }
     }
 
     delay(15)
-    job.cancel()
-    job.join()
+    job.cancelAndJoin()
 
     println()
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
