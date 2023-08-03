@@ -11,7 +11,7 @@ fun main(){
 
     GlobalScope.launch{
         println("Fake work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
-        Thread.sleep(1000)
+        Thread.sleep(1000)              //Blocks the thread on which it is running. Then why we should use coroutine?
         println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
     }
 
