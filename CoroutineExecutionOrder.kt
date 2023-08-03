@@ -42,12 +42,6 @@ suspend fun getMessageTwo(): String{
 /*
 OUTPUT:
 main program starts at 0: main
-0.1.2.3.Exception in thread "main" kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 2000 ms
-	at kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:184)
-	at kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:154)
-	at kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:502)
-	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
-	at kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:108)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-
+Full message is : Hello World! 2028: main
+Main program ends at 2028: main
  */
