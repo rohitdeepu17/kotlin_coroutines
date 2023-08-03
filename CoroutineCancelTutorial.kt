@@ -25,7 +25,7 @@ fun main() = runBlocking {//Main Thread
                 delay(5)
             }
         }catch (ex: CancellationException){
-            println("Exception caught safely")
+            println("Exception caught safely : ${ex.message}")
         }finally {
             withContext(NonCancellable){//a new coroutine is created as the older one is cancelled.
                 delay(10)
@@ -36,14 +36,15 @@ fun main() = runBlocking {//Main Thread
     }
 
     delay(15)
-    job.cancelAndJoin()
+    job.cancel(CancellationException("my crash message"))
+    job.join()
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
 
 /*
 OUTPUT:
 main program starts at 0: main
-1 2 3 Exception caught safely
+1 2 3 4 Exception caught safely : my crash message
 closing resources
-Main program ends at 78: main
+Main program ends at 80: main
  */
