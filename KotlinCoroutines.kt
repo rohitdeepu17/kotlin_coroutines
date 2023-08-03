@@ -15,11 +15,14 @@ fun main(){
         println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
     }
 
+    Thread.sleep(2000)
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
 
 /*
 OUTPUT:
     main program starts at 0: main
-    Main program ends at 101: main
+    Fake work starts at 85: DefaultDispatcher-worker-1
+    Fake work finished at 1096: DefaultDispatcher-worker-1
+    Main program ends at 2092: main
  */
