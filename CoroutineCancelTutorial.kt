@@ -6,6 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.yield
 
 fun main() = runBlocking {//Main Thread
     val startTime = System.currentTimeMillis()
@@ -13,12 +14,12 @@ fun main() = runBlocking {//Main Thread
 
     val job: Job = launch{
         for(i in 1..1000){
-            delay(5)
+            yield()
             print("$i ")
         }
     }
 
-    delay(200)
+    delay(15)
     job.cancel()
     job.join()
 
