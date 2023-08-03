@@ -1,14 +1,11 @@
 package com.example.testkotlincoroutines
 
-import android.provider.Settings.Global
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.concurrent.thread
 
-fun main(){ //main thread
-    runBlocking {
+fun main() = runBlocking {
         val startTime = System.currentTimeMillis()
         println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
@@ -21,7 +18,6 @@ fun main(){ //main thread
         delay(2000)
 
         println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
-    }
 }
 
 /*
