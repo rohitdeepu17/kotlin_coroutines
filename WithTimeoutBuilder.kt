@@ -14,24 +14,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
 
 fun main() = runBlocking {//Main Thread
     val startTime = System.currentTimeMillis()
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-    withTimeout(2000){
-        try {
+    val result: String? = withTimeoutOrNull(2000){
             for (i in 0..1000) {
                 print("$i.")
                 delay(500)
             }
-        }catch (ex: TimeoutCancellationException){
-            println("Timeout Cancellation Exception : ${ex.message}")
-        }finally {
-            println("closing resources in finally")
-        }
+        "Done"
     }
+
+    println("Result : $result")
 
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
