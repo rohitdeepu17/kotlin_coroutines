@@ -4,9 +4,10 @@ import android.provider.Settings.Global
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
-fun main(){
+fun main(){ //main thread
     val startTime = System.currentTimeMillis()
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
@@ -16,7 +17,11 @@ fun main(){
         println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")     //Either T1 or some other thread
     }
 
-    Thread.sleep(2000)
+    runBlocking {
+        println("Run blocking work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}") //main thread
+        delay(2000)
+    }
+
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
 
