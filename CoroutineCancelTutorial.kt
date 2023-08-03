@@ -13,6 +13,7 @@ fun main() = runBlocking {//Main Thread
 
     val job: Job = launch{
         for(i in 1..1000){
+            delay(5)
             print("$i ")
         }
     }
