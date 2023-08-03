@@ -1,6 +1,7 @@
 package com.example.testkotlincoroutines
 
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,8 +22,8 @@ fun main() = runBlocking {//Main Thread
     val startTime = System.currentTimeMillis()
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-    val msgOne : Deferred<String> = async{getMessageOneNew(startTime)}      //even we can use launch coroutine. But here we want to to return some value which launch cannot return
-    val msgTwo : Deferred<String> = async{getMessageTwoNew(startTime)}
+    val msgOne : Deferred<String> = async(start = CoroutineStart.LAZY){getMessageOneNew(startTime)}      //even we can use launch coroutine. But here we want to to return some value which launch cannot return
+    val msgTwo : Deferred<String> = async(start = CoroutineStart.LAZY){getMessageTwoNew(startTime)}
 
     delay(2000)
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
@@ -43,7 +44,5 @@ suspend fun getMessageTwoNew(startTime: Long): String{
 /*
 OUTPUT:
 main program starts at 0: main
-message One done at 1035: main
-message Two done at 1036: main
-Main program ends at 2019: main
+Main program ends at 2022: main
  */
