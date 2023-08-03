@@ -21,7 +21,7 @@ fun main() = runBlocking {//Main Thread
     val startTime = System.currentTimeMillis()
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-    val msgOne : Deferred<String> = async{getMessageOne()}
+    val msgOne : Deferred<String> = async{getMessageOne()}      //even we can use launch coroutine. But here we want to to return some value which launch cannot return
     val msgTwo : Deferred<String> = async{getMessageTwo()}
 
     println("Full message is : ${msgOne.await()+msgTwo.await()} ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
