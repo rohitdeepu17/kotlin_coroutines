@@ -5,6 +5,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -20,10 +21,16 @@ fun main() = runBlocking {//Main Thread
     println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
     withTimeout(2000){
-            for(i in 0..1000){
+        try {
+            for (i in 0..1000) {
                 print("$i.")
                 delay(500)
             }
+        }catch (ex: TimeoutCancellationException){
+            println("Timeout Cancellation Exception : ${ex.message}")
+        }finally {
+            println("closing resources in finally")
+        }
     }
 
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
