@@ -8,27 +8,26 @@ import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
 fun main(){ //main thread
-    val startTime = System.currentTimeMillis()
-    println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
-
-    GlobalScope.launch{     //Thread T1
-        println("Fake work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")  //Thread T1
-        delay(1000)     //does not block the thread on which it is running
-        println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")     //Either T1 or some other thread
-    }
-
     runBlocking {
-        println("Run blocking work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}") //main thread
-        delay(2000)
-    }
+        val startTime = System.currentTimeMillis()
+        println("main program starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 
-    println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
+        GlobalScope.launch{     //Thread T1
+            println("Fake work starts at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")  //Thread T1
+            delay(1000)     //does not block the thread on which it is running
+            println("Fake work finished at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")     //Either T1 or some other thread
+        }
+
+        delay(2000)
+
+        println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
+    }
 }
 
 /*
 OUTPUT:
-    main program starts at 0: main
-    Fake work starts at 83: DefaultDispatcher-worker-1
-    Fake work finished at 1092: DefaultDispatcher-worker-1
-    Main program ends at 2086: main
+main program starts at 0: main
+Fake work starts at 10: DefaultDispatcher-worker-1
+Fake work finished at 1017: DefaultDispatcher-worker-1
+Main program ends at 2024: main
  */
