@@ -25,6 +25,8 @@ fun main() = runBlocking {//Main Thread
     val msgOne : Deferred<String> = async(start = CoroutineStart.LAZY){getMessageOneNew(startTime)}      //even we can use launch coroutine. But here we want to to return some value which launch cannot return
     val msgTwo : Deferred<String> = async(start = CoroutineStart.LAZY){getMessageTwoNew(startTime)}
 
+    println("Full message is : ${msgOne.await()+msgTwo.await()} ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
+
     delay(2000)
     println("Main program ends at ${System.currentTimeMillis()-startTime}: ${Thread.currentThread().name}")
 }
@@ -44,5 +46,8 @@ suspend fun getMessageTwoNew(startTime: Long): String{
 /*
 OUTPUT:
 main program starts at 0: main
-Main program ends at 2022: main
+message One done at 1019: main
+message Two done at 2027: main
+Full message is : Hello World! 2027: main
+Main program ends at 4042: main
  */
